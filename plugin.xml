@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="Generator.contribution1"
+            nameFilter="*.java"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               label="Equals and Hashcode"
+               class="com.popup.actions.GenerateAction"
+               menubarPath="additions"
+               enablesFor="1"
+               id="Generator.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+</plugin>

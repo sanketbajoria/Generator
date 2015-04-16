@@ -3,15 +3,31 @@ package com.generator;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EqualsGenerator.
+ */
 public class EqualsGenerator extends BaseGenerator {
 
+    /**
+     * Instantiates a new equals generator.
+     *
+     * @param type
+     *            the type
+     * @param fields
+     *            the fields
+     */
     public EqualsGenerator(IType type, IField[] fields) {
         super(type, "equals", fields);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.generator.BaseGenerator#createMethod(org.eclipse.jdt.core.IField[], org.eclipse.jdt.core.IType)
+     */
     @Override
     protected String createMethod(IField[] fields, IType type) {
-        StringBuilder buf = new StringBuilder();
+        StringBuilder buf = new StringBuilder(200);
         String typeName = type.getElementName();
         buf.append("\n@Override\npublic boolean equals(Object obj)  {\n");
         buf.append("if (obj == null || getClass() != obj.getClass()) {\n return false; \n}\n");
@@ -28,10 +44,9 @@ public class EqualsGenerator extends BaseGenerator {
                         .append(")");
             }
             buf.append(";\n");
-        }else{
+        } else {
             buf.append("return true;");
         }
-       
 
         buf.append("}");
         return buf.toString();

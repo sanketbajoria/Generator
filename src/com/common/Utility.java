@@ -228,6 +228,14 @@ public class Utility {
         }
     }
 
+    /**
+     * Show info.
+     *
+     * @param shell
+     *            the shell
+     * @param message
+     *            the message
+     */
     public static void showInfo(Shell shell, String message) {
         MessageDialog dialog =
                 new MessageDialog(shell, "Oops", null, message, MessageDialog.INFORMATION, new String[] { "OK" }, 0);

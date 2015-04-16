@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -88,23 +87,24 @@ public class GenerateAction implements IObjectActionDelegate {
         try {
             IType type = Utility.getSelectedType(targetPart);
             if (type != null) {
-                ListSelectionDialog dlg =
-                        new ListSelectionDialog(shell, type.getFields(), new ArrayContentProvider(),
-                                new FieldLabelProvider(), "Select variables, you want in your method:");
-                dlg.setTitle("Selec the variables");
-                if (Window.OK == dlg.open()) {
-                    IField[] fields = Arrays.copyOf(dlg.getResult(), dlg.getResult().length, IField[].class);
-                    HashCodeGenerator hashCodeGenerator = new HashCodeGenerator(type, fields);
-                    hashCodeGenerator.generateMethod(true);
-                    EqualsGenerator equalsGenerator = new EqualsGenerator(type, fields);
-                    equalsGenerator.generateMethod(true);
-                    Utility.organizeImport(type);
+                if (type.isClass()) {
+                    ListSelectionDialog dlg =
+                            new ListSelectionDialog(shell, type.getFields(), new ArrayContentProvider(),
+                                    new FieldLabelProvider(), "Select variables, you want in your method:");
+                    dlg.setTitle("Selec the variables");
+                    if (Window.OK == dlg.open()) {
+                        IField[] fields = Arrays.copyOf(dlg.getResult(), dlg.getResult().length, IField[].class);
+                        HashCodeGenerator hashCodeGenerator = new HashCodeGenerator(type, fields);
+                        hashCodeGenerator.generateMethod(true);
+                        EqualsGenerator equalsGenerator = new EqualsGenerator(type, fields);
+                        equalsGenerator.generateMethod(true);
+                        Utility.organizeImport(type);
+                    }
+                } else {
+                    Utility.showInfo(shell, "This operation is not applicable to this type");
                 }
             } else {
-                MessageDialog dialog =
-                        new MessageDialog(shell, "Oops", null, "Error while selecting item, please, try again",
-                                MessageDialog.INFORMATION, new String[] { "OK" }, 0);
-                int result = dialog.open();
+                Utility.showInfo(shell, "Error while selecting item, please, try from package explorer or content view");
             }
 
         } catch (JavaModelException e) {

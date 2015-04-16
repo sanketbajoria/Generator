@@ -11,10 +11,12 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -224,5 +226,11 @@ public class Utility {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public static void showInfo(Shell shell, String message) {
+        MessageDialog dialog =
+                new MessageDialog(shell, "Oops", null, message, MessageDialog.INFORMATION, new String[] { "OK" }, 0);
+        dialog.open();
     }
 }
